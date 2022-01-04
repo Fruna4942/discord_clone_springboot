@@ -23,6 +23,19 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	// mybatis
+	// https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.1'
+
+	// mariadb
+	// https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client
+	implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.4'
+
+	// mail
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail
+	implementation 'org.springframework.boot:spring-boot-starter-mail:2.6.2'
+
 }
 
 test {
