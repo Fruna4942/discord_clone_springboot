@@ -7,6 +7,8 @@ import com.toyproject.discord_clone.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping(value = "/user")
 public class UserController {
@@ -16,7 +18,7 @@ public class UserController {
     MailService mailService;
 
 
-    @RequestMapping(value = "/signup", method = RequestMethod.POST)
+    @RequestMapping(value = "/sign-up", method = RequestMethod.POST)
     @ResponseBody()
     public DefaultResponse signUp(@RequestBody UserDto userDto) {
         return userService.signUp(userDto);
@@ -28,10 +30,9 @@ public class UserController {
         return mailService.mailCertification(userDto);
     }
 
-    @RequestMapping(value = "/signin", method = RequestMethod.POST)
+    @RequestMapping(value = "/sign-in", method = RequestMethod.POST)
     @ResponseBody()
-    public DefaultResponse signIn(@RequestBody UserDto userDto) {
-        return userService.signIn(userDto);
+    public DefaultResponse signIn(@RequestBody UserDto userDto, HttpServletRequest httpServletRequest) {
+        return userService.signIn(userDto, httpServletRequest);
     }
-
 }

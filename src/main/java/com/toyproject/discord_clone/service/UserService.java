@@ -8,10 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @Service
 public class UserService {
     @Autowired
     public UserDao userDao;
+
+    @Autowired
+    public HttpSession httpSession;
 
     public DefaultResponse signUp(UserDto userDto) {
         DefaultResponse defaultResponse = new DefaultResponse();
@@ -33,9 +39,19 @@ public class UserService {
         return defaultResponse;
     }
 
-    public DefaultResponse signIn(UserDto userDto) throws DataAccessException {
+    public DefaultResponse signIn(UserDto userDto, HttpServletRequest httpServletRequest) throws DataAccessException {
         DefaultResponse defaultResponse = new DefaultResponse();
         defaultResponse.setSuccess(true);
+
+        // check session from request
+        httpSession = httpServletRequest.getSession();
+        if (httpSession != null) {
+            // check request session exists in server
+            Object object = httpSession.getAttribute("user");
+            if (object != null) {
+                return defaultResponse;
+            }
+        }
 
         // pw encryption
         String encryptedPassword = Encrypt.SHA256Util(userDto.getPassword());
@@ -50,6 +66,7 @@ public class UserService {
             defaultResponse.setSuccess(false);
         }
         if (loginUserDto == null) defaultResponse.setSuccess(false);
+        else httpSession.setAttribute("user", userDto);
 
         return defaultResponse;
     }
