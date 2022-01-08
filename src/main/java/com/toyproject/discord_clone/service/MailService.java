@@ -1,6 +1,6 @@
 package com.toyproject.discord_clone.service;
 
-import com.toyproject.discord_clone.common.DefaultResponse;
+import com.toyproject.discord_clone.dto.DefaultResponseDto;
 import com.toyproject.discord_clone.dao.UserDao;
 import com.toyproject.discord_clone.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +19,9 @@ public class MailService {
     @Autowired
     private JavaMailSender javaMailSender;
 
-    public DefaultResponse mailCertification(UserDto userDto) {
-        DefaultResponse defaultResponse = new DefaultResponse();
-        defaultResponse.setSuccess(true);
+    public DefaultResponseDto mailCertification(UserDto userDto) {
+        DefaultResponseDto defaultResponseDto = new DefaultResponseDto();
+        defaultResponseDto.setSuccess(true);
 
         // certified_key generation & update
         Random random = new Random();
@@ -32,7 +32,7 @@ public class MailService {
             userDao.updateCertifiedKey(userDto.getCertified_key(), userDto.getEmail());
         } catch (DataAccessException e) {
             e.printStackTrace();
-            defaultResponse.setSuccess(false);
+            defaultResponseDto.setSuccess(false);
         }
 
         // mail setting & send
@@ -45,9 +45,9 @@ public class MailService {
             javaMailSender.send(simpleMailMessage);
         } catch (MailException e) {
             e.printStackTrace();
-            defaultResponse.setSuccess(false);
+            defaultResponseDto.setSuccess(false);
         }
 
-        return defaultResponse;
+        return defaultResponseDto;
     }
 }

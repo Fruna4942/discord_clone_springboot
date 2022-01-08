@@ -12,7 +12,7 @@
         UPDATE user SET certified_key = #{certified_key} WHERE email = #{email}
     </update>
 
-    <select id="signIn" resultType="UserDto">
+    <select id="logIn" resultType="UserDto">
         SELECT * FROM user WHERE email = #{email} AND password = #{password}
     </select>
 

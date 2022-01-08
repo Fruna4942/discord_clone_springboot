@@ -1,9 +1,9 @@
-package com.toyproject.discord_clone.common;
+package com.toyproject.discord_clone.dto;
 
 import lombok.Data;
 
 @Data
-public class DefaultResponse {
+public class DefaultResponseDto {
     private boolean success;
     private Object result;
     private String msg;

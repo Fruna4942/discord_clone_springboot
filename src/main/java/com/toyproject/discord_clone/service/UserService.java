@@ -1,6 +1,6 @@
 package com.toyproject.discord_clone.service;
 
-import com.toyproject.discord_clone.common.DefaultResponse;
+import com.toyproject.discord_clone.dto.DefaultResponseDto;
 import com.toyproject.discord_clone.dao.UserDao;
 import com.toyproject.discord_clone.dto.UserDto;
 import com.toyproject.discord_clone.module.Encrypt;
@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Service
@@ -19,9 +18,9 @@ public class UserService {
     @Autowired
     public HttpSession httpSession;
 
-    public DefaultResponse signUp(UserDto userDto) {
-        DefaultResponse defaultResponse = new DefaultResponse();
-        defaultResponse.setSuccess(true);
+    public DefaultResponseDto signUp(UserDto userDto) {
+        DefaultResponseDto defaultResponseDto = new DefaultResponseDto();
+        defaultResponseDto.setSuccess(true);
 
         // pw encryption
         String encryptedPassword = Encrypt.SHA256Util(userDto.getPassword());
@@ -33,25 +32,15 @@ public class UserService {
             userDao.insertUser(userDto.getEmail(), userDto.getPassword(), userDto.getName());
         } catch (DataAccessException e) {
             e.printStackTrace();
-            defaultResponse.setSuccess(false);
+            defaultResponseDto.setSuccess(false);
         }
 
-        return defaultResponse;
+        return defaultResponseDto;
     }
 
-    public DefaultResponse signIn(UserDto userDto, HttpServletRequest httpServletRequest) throws DataAccessException {
-        DefaultResponse defaultResponse = new DefaultResponse();
-        defaultResponse.setSuccess(true);
-
-        // check session from request
-        httpSession = httpServletRequest.getSession();
-        if (httpSession != null) {
-            // check request session exists in server
-            Object object = httpSession.getAttribute("user");
-            if (object != null) {
-                return defaultResponse;
-            }
-        }
+    public DefaultResponseDto logIn(UserDto userDto) throws DataAccessException {
+        DefaultResponseDto defaultResponseDto = new DefaultResponseDto();
+        defaultResponseDto.setSuccess(true);
 
         // pw encryption
         String encryptedPassword = Encrypt.SHA256Util(userDto.getPassword());
@@ -60,28 +49,55 @@ public class UserService {
         // match with DB
         UserDto loginUserDto = new UserDto();
         try {
-            loginUserDto = userDao.signIn(userDto.getEmail(), userDto.getPassword());
+            loginUserDto = userDao.logIn(userDto.getEmail(), userDto.getPassword());
         } catch (DataAccessException e) {
             e.printStackTrace();
-            defaultResponse.setSuccess(false);
+            defaultResponseDto.setSuccess(false);
         }
-        if (loginUserDto == null) defaultResponse.setSuccess(false);
+        if (loginUserDto == null) defaultResponseDto.setSuccess(false);
         else httpSession.setAttribute("user", userDto);
 
-        return defaultResponse;
+        return defaultResponseDto;
     }
 
-    public DefaultResponse deleteUser(UserDto userDto) {
-        DefaultResponse defaultResponse = new DefaultResponse();
-        defaultResponse.setSuccess(true);
+    public DefaultResponseDto auth(HttpSession httpSession) {
+        DefaultResponseDto defaultResponseDto = new DefaultResponseDto();
+        defaultResponseDto.setSuccess(true);
+
+        Object loginUserDto = new Object();
+        loginUserDto = httpSession.getAttribute("user");
+
+        if (loginUserDto == null) defaultResponseDto.setSuccess(false);
+        else defaultResponseDto.setResult(loginUserDto);
+
+        return defaultResponseDto;
+    }
+
+    public DefaultResponseDto logOut(HttpSession httpSession) {
+        DefaultResponseDto defaultResponseDto = new DefaultResponseDto();
+        defaultResponseDto.setSuccess(true);
+
+        try {
+            httpSession.removeAttribute("user");
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+            defaultResponseDto.setSuccess(false);
+        }
+
+        return defaultResponseDto;
+    }
+
+    public DefaultResponseDto deleteUser(UserDto userDto) {
+        DefaultResponseDto defaultResponseDto = new DefaultResponseDto();
+        defaultResponseDto.setSuccess(true);
 
         try {
             userDao.deleteUser(userDto.getEmail());
         } catch (DataAccessException e) {
             e.printStackTrace();
-            defaultResponse.setSuccess(false);
+            defaultResponseDto.setSuccess(false);
         }
 
-        return defaultResponse;
+        return defaultResponseDto;
     }
 }
