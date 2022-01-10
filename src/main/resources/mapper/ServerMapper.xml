@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace = "com.toyproject.discord_clone.dao.ServerDao">
+    <select id ="selectServer" resultType="ServerDto">
+        SELECT * FROM server WHERE _id = #{_id}
+    </select>
+    <insert id = "insertServer">
+        INSERT INTO server (name, avatar, host) VALUES(#{name}, #{avatar}, #{host})
+    </insert>
+    <update id = "updateServer">
+        UPDATE server SET name = #{name}, avatar = #{avatar} WHERE _id = #{_id}
+    </update>
+    <delete id="deleteServer">
+        DELETE FROM server WHERE _id = #{_id}
+    </delete>
+</mapper>

@@ -55,7 +55,7 @@ public class UserService {
             defaultResponseDto.setSuccess(false);
         }
         if (loginUserDto == null) defaultResponseDto.setSuccess(false);
-        else httpSession.setAttribute("user", userDto);
+        else httpSession.setAttribute("user", loginUserDto);
 
         return defaultResponseDto;
     }
@@ -64,8 +64,8 @@ public class UserService {
         DefaultResponseDto defaultResponseDto = new DefaultResponseDto();
         defaultResponseDto.setSuccess(true);
 
-        Object loginUserDto = new Object();
-        loginUserDto = httpSession.getAttribute("user");
+        UserDto loginUserDto;
+        loginUserDto = (UserDto)httpSession.getAttribute("user");
 
         if (loginUserDto == null) defaultResponseDto.setSuccess(false);
         else defaultResponseDto.setResult(loginUserDto);

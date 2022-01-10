@@ -1,0 +1,60 @@
+use discord_clone;
+
+DROP TABLE IF EXISTS message;
+DROP TABLE IF EXISTS friend_request;
+DROP TABLE IF EXISTS channel;
+DROP TABLE IF EXISTS server;
+DROP TABLE IF EXISTS user;
+
+CREATE TABLE user (
+    _id INT AUTO_INCREMENT NOT NULL,
+    email VARCHAR(30) UNIQUE NOT NULL,
+    password VARCHAR(100) NOT NULL,
+    name VARCHAR(30) NOT NULL,
+    avatar VARCHAR(100) DEFAULT NULL,
+    is_enabled BOOLEAN NOT NULL DEFAULT false,
+    certified_key VARCHAR(10) DEFAULT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, 
+    PRIMARY KEY (_id)
+);
+CREATE TABLE server (
+    _id INT AUTO_INCREMENT NOT NULL,
+    name VARCHAR(40) NOT NULL,
+    avatar VARCHAR(100) NULL,
+    host INT NOT NULL,
+    PRIMARY KEY (_id),
+    FOREIGN KEY (host)
+        REFERENCES user (_id)
+);
+CREATE TABLE channel (
+    _id INT AUTO_INCREMENT NOT NULL,
+    name VARCHAR(40) NOT NULL,
+    type INT NOT NULL,
+    server INT NOT NULL,
+    PRIMARY KEY (_id),
+    FOREIGN KEY (server)
+        REFERENCES server (_id)
+);
+
+CREATE TABLE friend_request (
+    _id INT AUTO_INCREMENT NOT NULL,
+    from_user INT NOT NULL,
+    to_user INT NOT NULL,
+    PRIMARY KEY (_id),
+    FOREIGN KEY (from_user)
+        REFERENCES user (_id),
+    FOREIGN KEY (to_user)
+        REFERENCES user (_id)
+);
+CREATE TABLE message (
+    _id INT AUTO_INCREMENT NOT NULL,
+    content VARCHAR(1000) NOT NULL,
+    from_user INT NOT NULL,
+    channel INT NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (_id),
+    FOREIGN KEY (from_user)
+        REFERENCES user (_id),
+    FOREIGN KEY (channel)
+        REFERENCES channel (_id)
+);
