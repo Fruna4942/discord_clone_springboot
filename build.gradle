@@ -43,15 +43,6 @@ dependencies {
 	// websocket
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-websocket
 	implementation 'org.springframework.boot:spring-boot-starter-websocket:2.6.2'
-
-	//sockjs
-	// https://mvnrepository.com/artifact/org.webjars/sockjs-client
-	implementation 'org.webjars:sockjs-client:1.5.1'
-
-	//stomp websocket
-	// https://mvnrepository.com/artifact/org.webjars/stomp-websocket
-	implementation 'org.webjars:stomp-websocket:2.3.4'
-
 }
 
 test {

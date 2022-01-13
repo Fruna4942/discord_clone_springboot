@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
-import java.security.PublicKey;
-
 //TODO : 채널 관련 권한에 관한 내용 필요
 @Service
 public class ChannelService {

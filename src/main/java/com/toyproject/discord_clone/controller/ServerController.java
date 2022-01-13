@@ -2,7 +2,6 @@ package com.toyproject.discord_clone.controller;
 
 import com.toyproject.discord_clone.dto.DefaultResponseDto;
 import com.toyproject.discord_clone.dto.ServerDto;
-import com.toyproject.discord_clone.dto.UserDto;
 import com.toyproject.discord_clone.service.ServerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

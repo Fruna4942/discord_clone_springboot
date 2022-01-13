@@ -1,11 +1,9 @@
 package com.toyproject.discord_clone.service;
 
 import com.toyproject.discord_clone.dao.ServerDao;
-import com.toyproject.discord_clone.dao.UserDao;
 import com.toyproject.discord_clone.dto.DefaultResponseDto;
 import com.toyproject.discord_clone.dto.ServerDto;
 import com.toyproject.discord_clone.dto.UserDto;
-import com.toyproject.discord_clone.module.Encrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
