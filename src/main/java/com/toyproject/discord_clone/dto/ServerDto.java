@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class ServerDto {
-    int _id;
-    String name;
-    String avatar;
-    int host;
+    private int _id;
+    private String name;
+    private String avatar;
+    private int host;
 }

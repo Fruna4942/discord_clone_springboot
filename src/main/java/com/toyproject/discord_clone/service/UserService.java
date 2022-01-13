@@ -21,11 +21,11 @@ public class UserService {
     public DefaultResponseDto signUp(UserDto userDto) {
         DefaultResponseDto defaultResponseDto = new DefaultResponseDto();
         defaultResponseDto.setSuccess(true);
+        defaultResponseDto.setMsg("회원가입이 완료되었습니다.");
 
         // pw encryption
         String encryptedPassword = Encrypt.SHA256Util(userDto.getPassword());
         userDto.setPassword(encryptedPassword);
-        System.out.println();
 
         // insert user
         try {
@@ -33,6 +33,7 @@ public class UserService {
         } catch (DataAccessException e) {
             e.printStackTrace();
             defaultResponseDto.setSuccess(false);
+            defaultResponseDto.setMsg("서버 내부 오류(DB)");
         }
 
         return defaultResponseDto;
@@ -41,6 +42,7 @@ public class UserService {
     public DefaultResponseDto logIn(UserDto userDto) throws DataAccessException {
         DefaultResponseDto defaultResponseDto = new DefaultResponseDto();
         defaultResponseDto.setSuccess(true);
+        defaultResponseDto.setMsg("로그인 되었습니다.");
 
         // pw encryption
         String encryptedPassword = Encrypt.SHA256Util(userDto.getPassword());
@@ -53,8 +55,12 @@ public class UserService {
         } catch (DataAccessException e) {
             e.printStackTrace();
             defaultResponseDto.setSuccess(false);
+            defaultResponseDto.setMsg("서버 내부 오류(DB)");
         }
-        if (loginUserDto == null) defaultResponseDto.setSuccess(false);
+        if (loginUserDto == null) {
+            defaultResponseDto.setSuccess(false);
+            defaultResponseDto.setMsg("유효하지 않은 아이디 또는 비밀번호입니다.");
+        }
         else httpSession.setAttribute("user", loginUserDto);
 
         return defaultResponseDto;
@@ -63,11 +69,15 @@ public class UserService {
     public DefaultResponseDto auth(HttpSession httpSession) {
         DefaultResponseDto defaultResponseDto = new DefaultResponseDto();
         defaultResponseDto.setSuccess(true);
+        defaultResponseDto.setMsg("유효한 세션입니다.");
 
         UserDto loginUserDto;
         loginUserDto = (UserDto)httpSession.getAttribute("user");
 
-        if (loginUserDto == null) defaultResponseDto.setSuccess(false);
+        if (loginUserDto == null) {
+            defaultResponseDto.setSuccess(false);
+            defaultResponseDto.setMsg("유효하지 않은 세션입니다.");
+        }
         else defaultResponseDto.setResult(loginUserDto);
 
         return defaultResponseDto;
@@ -76,12 +86,14 @@ public class UserService {
     public DefaultResponseDto logOut(HttpSession httpSession) {
         DefaultResponseDto defaultResponseDto = new DefaultResponseDto();
         defaultResponseDto.setSuccess(true);
+        defaultResponseDto.setMsg("로그아웃 되었습니다.");
 
         try {
             httpSession.removeAttribute("user");
         } catch (IllegalStateException e) {
             e.printStackTrace();
             defaultResponseDto.setSuccess(false);
+            defaultResponseDto.setMsg("유효하지 않은 세션입니다.");
         }
 
         return defaultResponseDto;
@@ -90,12 +102,14 @@ public class UserService {
     public DefaultResponseDto deleteUser(UserDto userDto) {
         DefaultResponseDto defaultResponseDto = new DefaultResponseDto();
         defaultResponseDto.setSuccess(true);
+        defaultResponseDto.setMsg("회원탈퇴가 완료되었습니다.");
 
         try {
             userDao.deleteUser(userDto.getEmail());
         } catch (DataAccessException e) {
             e.printStackTrace();
             defaultResponseDto.setSuccess(false);
+            defaultResponseDto.setMsg("서버 내부 오류(DB)");
         }
 
         return defaultResponseDto;

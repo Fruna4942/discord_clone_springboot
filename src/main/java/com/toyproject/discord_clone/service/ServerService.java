@@ -35,7 +35,6 @@ public class ServerService {
             return defaultResponseDto;
         }
 
-
         // insert server
         try {
             serverDao.insertServer(serverDto.getName(),serverDto.getAvatar(), userDto.get_id());

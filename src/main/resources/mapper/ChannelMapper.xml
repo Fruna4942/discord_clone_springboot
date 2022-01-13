@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace = "com.toyproject.discord_clone.dao.ChannelDao">
+    <insert id="createChannel">
+        INSERT INTO channel (name, type, server) VALUES(#{name}, #{type}, #{server})
+    </insert>
+
+    <update id="updateChannelName">
+        UPDATE channel SET name = #{name} WHERE _id = #{_id}
+    </update>
+
+    <delete id="deleteChannel">
+        DELETE FROM channel WHERE _id = #{_id}
+    </delete>
+
+    <select id="selectChannel" resultType="ChannelDto">
+        SELECT * FROM channel WHERE _id = #{_id}
+    </select>
+</mapper>

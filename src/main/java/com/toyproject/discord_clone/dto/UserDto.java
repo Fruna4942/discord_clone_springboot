@@ -4,11 +4,11 @@ import lombok.Data;
 
 @Data
 public class UserDto {
-    int _id;
-    String email;
-    String password;
-    String name;
-    String avatar;
-    boolean is_enabled;
-    String certified_key;
+    private int _id;
+    private String email;
+    private String password;
+    private String name;
+    private String avatar;
+    private boolean is_enabled;
+    private String certified_key;
 }
