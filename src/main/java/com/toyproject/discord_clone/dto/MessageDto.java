@@ -2,7 +2,7 @@ package com.toyproject.discord_clone.dto;
 
 import lombok.Data;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 @Data
 public class MessageDto {
@@ -10,5 +10,5 @@ public class MessageDto {
     private String content;
     private int from_user;
     private int channel;
-    private Date created_at;
+    private Timestamp created_at;
 }

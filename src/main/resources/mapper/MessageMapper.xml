@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace = "com.toyproject.discord_clone.dao.MessageDao">
+    <insert id="insertMessage">
+        INSERT INTO message (from_user, channel, content) VALUES(#{from_user}, #{channel}, #{content})
+    </insert>
+
+    <delete id="deleteMessage">
+        DELETE FROM message WHERE _id = #{_id}
+    </delete>
+
+    <select id="selectMessagesByChannel" resultType="messageDto">
+        SELECT * FROM message WHERE channel = #{channel} ORDER BY created_at ASC
+    </select>
+</mapper>

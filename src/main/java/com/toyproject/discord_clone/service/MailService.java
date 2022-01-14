@@ -22,6 +22,7 @@ public class MailService {
     public DefaultResponseDto mailCertification(UserDto userDto) {
         DefaultResponseDto defaultResponseDto = new DefaultResponseDto();
         defaultResponseDto.setSuccess(true);
+        defaultResponseDto.setMsg("인증메일을 보냈습니다.");
 
         // certified_key generation & update
         Random random = new Random();
